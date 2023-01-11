@@ -1,3 +1,8 @@
+import {
+  ClassConstuctor,
+  serializeToDto,
+} from "../interceptors/serialize.interceptor";
+
 class Pageable {
   constructor(page: number, size: number) {
     this.page = page;
@@ -26,10 +31,10 @@ class Page<T> {
     return this.content;
   }
 
-  // serializeContent(dto: ClassConstuctor): Page<T> {
-  //   this.content = serializeToDto(this.content, dto);
-  //   return this;
-  // }
+  serializeContent(dto: ClassConstuctor): Page<T> {
+    this.content = serializeToDto(this.content, dto);
+    return this;
+  }
 
   getPage(): number {
     return this.pageable.page;
@@ -63,40 +68,40 @@ class Page<T> {
 
   async mapAsycParallel(
     fun: (data: any) => any,
-    options: PromiseType,
+    options: PromiseType
   ): Promise<Page<any>> {
     if (options === PromiseType.ALL) {
       return new Page(
         await Promise.all(this.content.map(fun)),
         this.pageable,
-        this.total,
+        this.total
       );
     } else {
       return new Page(
         await Promise.allSettled(this.content.map(fun)),
         this.pageable,
-        this.total,
+        this.total
       );
     }
   }
 }
 
 export enum Sort {
-  ASC = 'ASC',
-  DESC = 'DESC',
+  ASC = "ASC",
+  DESC = "DESC",
 }
 
 enum Operator {
-  EQ = 'eq',
-  NE = 'ne',
-  GT = 'gt',
-  GTE = 'gte',
-  LT = 'lt',
-  LTE = 'lte',
-  IN = 'in',
-  INS = 'ins',
-  NIN = 'nin',
-  LIKE = 'like',
+  EQ = "eq",
+  NE = "ne",
+  GT = "gt",
+  GTE = "gte",
+  LT = "lt",
+  LTE = "lte",
+  IN = "in",
+  INS = "ins",
+  NIN = "nin",
+  LIKE = "like",
 }
 
 class Searchable {
@@ -120,7 +125,7 @@ class Sortable {
 }
 
 function jsonParser(data: string | Searchable | Sortable | Pageable) {
-  if (typeof data === 'string') {
+  if (typeof data === "string") {
     return JSON.parse(data);
   } else {
     return data;
@@ -130,7 +135,7 @@ function jsonParser(data: string | Searchable | Sortable | Pageable) {
 function camelToSnakeCase(obj: Searchable | Sortable): Searchable | Sortable {
   obj.property = obj.property.replace(
     /[A-Z]/g,
-    (letter) => `_${letter.toLowerCase()}`,
+    (letter) => `_${letter.toLowerCase()}`
   );
 
   return obj;
@@ -140,7 +145,7 @@ class Search {
   constructor(
     searchable: Searchable[],
     sortable: Sortable[],
-    pageable: Pageable,
+    pageable: Pageable
   ) {
     this.searchable = searchable
       .map(jsonParser)
@@ -148,9 +153,9 @@ class Search {
     this.sortable = sortable
       .map(jsonParser)
       .map((sortable) =>
-        sortable?.property?.includes('.')
+        sortable?.property?.includes(".")
           ? sortable
-          : camelToSnakeCase(sortable),
+          : camelToSnakeCase(sortable)
       ) as Sortable[];
     this.pageable = jsonParser(pageable);
   }
@@ -162,8 +167,8 @@ class Search {
 }
 
 export enum PromiseType {
-  ALL = 'all',
-  ALL_SETTLED = 'allSettled',
+  ALL = "all",
+  ALL_SETTLED = "allSettled",
 }
 
 export enum DocumentPage {
