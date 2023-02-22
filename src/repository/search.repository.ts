@@ -1,15 +1,15 @@
-import { EntityTarget } from 'typeorm/common/EntityTarget';
-import { EntityManager } from 'typeorm/entity-manager/EntityManager';
-import { QueryRunner } from 'typeorm/query-runner/QueryRunner';
-import {PageRepository} from "./page.repository";
-import {Operator, Page, Pageable, Search} from "../param/PageParameter";
-import {Brackets, SelectQueryBuilder} from "typeorm";
+import { EntityTarget } from "typeorm/common/EntityTarget";
+import { EntityManager } from "typeorm/entity-manager/EntityManager";
+import { QueryRunner } from "typeorm/query-runner/QueryRunner";
+import { PageRepository } from "./page.repository";
+import { Operator, Page, Pageable, Search } from "../param/PageParameter";
+import { Brackets, SelectQueryBuilder } from "typeorm";
 
 export class SearchRepository<T> extends PageRepository<T> {
   constructor(
     target: EntityTarget<T>,
     manager: EntityManager,
-    queryRunner?: QueryRunner,
+    queryRunner?: QueryRunner
   ) {
     super(target, manager, queryRunner);
   }
@@ -18,19 +18,19 @@ export class SearchRepository<T> extends PageRepository<T> {
     search: Search,
     tableName: string,
     queryBuilder?: SelectQueryBuilder<T>,
-    customParameterFun?: any,
+    customParameterFun?: any
   ): Promise<Page<T>> {
     let query;
 
     if (queryBuilder) {
       search.sortable.forEach((sort) => {
-        if (!sort.property.includes('.')) {
+        if (!sort.property.includes(".")) {
           sort.property =
             `${tableName}.` +
             sort.property
               .toLowerCase()
               .replace(/([-_][a-z])/g, (group) =>
-                group.toUpperCase().replace('-', '').replace('_', ''),
+                group.toUpperCase().replace("-", "").replace("_", "")
               );
         }
       });
@@ -54,7 +54,7 @@ export class SearchRepository<T> extends PageRepository<T> {
       return new Page(
         data,
         new Pageable(search.pageable.page, search.pageable.size),
-        count,
+        count
       );
     });
   }
@@ -62,13 +62,13 @@ export class SearchRepository<T> extends PageRepository<T> {
   protected searchQueryBuild(
     search: Search,
     query: SelectQueryBuilder<T>,
-    tableName: string,
+    tableName: string
   ): SelectQueryBuilder<T> {
     for (const searchable of search.searchable) {
       const { operator, value } = searchable;
       const { table, property } = this.getJoinTableNameAndProperty(
         searchable.property,
-        tableName,
+        tableName
       );
 
       this.operatorSwitch(operator, query, table, property, value);
@@ -78,8 +78,8 @@ export class SearchRepository<T> extends PageRepository<T> {
   }
 
   private getJoinTableNameAndProperty(property: string, table: string) {
-    if (property.indexOf('.') > -1) {
-      const [parent, child] = property.split('.');
+    if (property.indexOf(".") > -1) {
+      const [parent, child] = property.split(".");
       table = parent;
       property = child;
     }
@@ -91,7 +91,7 @@ export class SearchRepository<T> extends PageRepository<T> {
     query: SelectQueryBuilder<T>,
     table: string,
     property: string,
-    value: string,
+    value: string
   ) {
     switch (operator) {
       case Operator.EQ:
@@ -137,17 +137,26 @@ export class SearchRepository<T> extends PageRepository<T> {
       case Operator.INS:
         query.andWhere(
           new Brackets((qb) => {
-            const values = value.split(',');
+            const values = value.split(",");
             values.forEach((val) => {
               qb.orWhere(`${table}.${property} IN ('${val}')`);
             });
-          }),
+          })
         );
         break;
       case Operator.NIN:
         query.andWhere(`${table}.${property} NOT IN (:${table}${property})`, {
           [`${table}${property}`]: value,
         });
+        break;
+      case Operator.BTE:
+        query.andWhere(
+          new Brackets((qb) => {
+            const values = value.split(",");
+            qb.andWhere(`${table}.${property} >= '${values[0]}'`);
+            qb.andWhere(`${table}.${property} <= '${values[1]}'`);
+          })
+        );
         break;
       default:
         break;
