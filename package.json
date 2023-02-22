@@ -1,12 +1,12 @@
 {
   "name": "@oysterable_public/oy_search",
-  "version": "1.0.29",
+  "version": "1.0.46",
   "description": "",
   "main": "index.js",
   "scripts": {
     "build": "rm -rf ./dist && tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "publish": "npm publish --access=public"
+    "publish:access": "npm publish --access=public"
   },
   "repository": {
     "type": "git",

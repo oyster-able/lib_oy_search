@@ -1,6 +1,6 @@
-import { EntityTarget } from 'typeorm/common/EntityTarget';
-import { EntityManager } from 'typeorm/entity-manager/EntityManager';
-import { QueryRunner } from 'typeorm/query-runner/QueryRunner';
+import { EntityTarget } from "typeorm/common/EntityTarget";
+import { EntityManager } from "typeorm/entity-manager/EntityManager";
+import { QueryRunner } from "typeorm/query-runner/QueryRunner";
 import { PageRepository } from "./page.repository";
 import { Page, Search } from "../param/PageParameter";
 import { SelectQueryBuilder } from "typeorm";

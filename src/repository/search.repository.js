@@ -12,12 +12,12 @@ class SearchRepository extends page_repository_1.PageRepository {
         let query;
         if (queryBuilder) {
             search.sortable.forEach((sort) => {
-                if (!sort.property.includes('.')) {
+                if (!sort.property.includes(".")) {
                     sort.property =
                         `${tableName}.` +
                             sort.property
                                 .toLowerCase()
-                                .replace(/([-_][a-z])/g, (group) => group.toUpperCase().replace('-', '').replace('_', ''));
+                                .replace(/([-_][a-z])/g, (group) => group.toUpperCase().replace("-", "").replace("_", ""));
                 }
             });
         }
@@ -46,8 +46,8 @@ class SearchRepository extends page_repository_1.PageRepository {
         return query;
     }
     getJoinTableNameAndProperty(property, table) {
-        if (property.indexOf('.') > -1) {
-            const [parent, child] = property.split('.');
+        if (property.indexOf(".") > -1) {
+            const [parent, child] = property.split(".");
             table = parent;
             property = child;
         }
@@ -97,7 +97,7 @@ class SearchRepository extends page_repository_1.PageRepository {
                 break;
             case PageParameter_1.Operator.INS:
                 query.andWhere(new typeorm_1.Brackets((qb) => {
-                    const values = value.split(',');
+                    const values = value.split(",");
                     values.forEach((val) => {
                         qb.orWhere(`${table}.${property} IN ('${val}')`);
                     });
@@ -106,6 +106,13 @@ class SearchRepository extends page_repository_1.PageRepository {
             case PageParameter_1.Operator.NIN:
                 query.andWhere(`${table}.${property} NOT IN (:${table}${property})`, {
                     [`${table}${property}`]: value,
+                });
+                break;
+            case PageParameter_1.Operator.BTE:
+                const values = value.split(",");
+                query.andWhere(`${table}.${property} BETWEEN :${table}${property}1 AND :${table}${property}2`, {
+                    [`${table}${property}1`]: values[0],
+                    [`${table}${property}2`]: values[1],
                 });
                 break;
             default:

@@ -150,12 +150,13 @@ export class SearchRepository<T> extends PageRepository<T> {
         });
         break;
       case Operator.BTE:
+        const values = value.split(",");
         query.andWhere(
-          new Brackets((qb) => {
-            const values = value.split(",");
-            qb.andWhere(`${table}.${property} >= '${values[0]}'`);
-            qb.andWhere(`${table}.${property} <= '${values[1]}'`);
-          })
+          `${table}.${property} BETWEEN :${table}${property}1 AND :${table}${property}2`,
+          {
+            [`${table}${property}1`]: values[0],
+            [`${table}${property}2`]: values[1],
+          }
         );
         break;
       default:

@@ -81,6 +81,7 @@ var Operator;
     Operator["INS"] = "ins";
     Operator["NIN"] = "nin";
     Operator["LIKE"] = "like";
+    Operator["BTE"] = "bte";
 })(Operator || (Operator = {}));
 exports.Operator = Operator;
 class Searchable {
