@@ -1,6 +1,6 @@
 {
   "name": "@oysterable_public/oy_search",
-  "version": "1.0.7",
+  "version": "1.0.24",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://HyeongJinKim@bitbucket.org/oysterabledev/oy_search.git"
+    "url": "https://github.com/oyster-able/lib_oy_search.git"
   },
   "author": "",
   "license": "ISC",
