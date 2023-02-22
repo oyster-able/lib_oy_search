@@ -4,6 +4,10 @@
 
 # 사용법
 
+npm i @oysterable_public/oy_search@유효한버전 (CHANGELOG.md 참고)
+
+# 수정방법
+
 1. 코드수정
 2. npm run build 실행
 3. npm version patch 버전업
