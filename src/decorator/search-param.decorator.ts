@@ -1,7 +1,7 @@
 import { createParamDecorator, ExecutionContext } from "@nestjs/common";
-import { Sort } from "../param/PageParameter";
+import { Pageable, Search } from "../param/PageParameter";
 
-function jsonParser(data) {
+function jsonParser(data: any) {
   if (typeof data === "string") {
     return JSON.parse(data);
   } else {
@@ -25,40 +25,52 @@ export const SearchParam = createParamDecorator(
 
     if (searchParams.pageable !== undefined) {
       searchParams.pageable = jsonParser(searchParams.pageable);
+      `₩`;
     }
 
-    return searchParams;
+    return new Search(
+      searchParams.searchable || [],
+      searchParams.sortable || [],
+      searchParams.pageable || new Pageable(1, 10)
+    );
   }
 );
 
 export const SearchDocumentParam = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
     const req = ctx.switchToHttp().getRequest();
+    const query = req.query;
+    const searchParams = {
+      param: {},
+      pageable: { page: undefined, size: undefined },
+      sort: query.sort,
+    };
 
-    const searchParams = req.query;
-
-    searchParams.param = searchParams.param
-      ? jsonParser(searchParams.param)
-      : {};
-
-    if (!searchParams.pageable) {
-      searchParams.pageable = { page: 1, size: 10 };
-    } else {
-      searchParams.pageable = jsonParser(searchParams.pageable);
+    if (query.machineId !== undefined) {
+      searchParams.param = { ...searchParams.param, machine: query.machineId };
     }
 
-    if (searchParams.startDate && searchParams.endDate) {
-      const startDate = new Date(searchParams.startDate);
-      const endDate = new Date(searchParams.endDate);
+    if (query.cmd !== undefined) {
+      searchParams.param = {
+        ...searchParams.param,
+        cmd: { $in: query.cmd.split(",") },
+      };
+    }
+
+    if (query.startDate && query.endDate) {
+      const startDate = new Date(query.startDate);
+      const endDate = new Date(query.endDate);
       startDate.setHours(startDate.getHours() + 9);
       endDate.setHours(endDate.getHours() + 9);
 
-      searchParams.startDate = startDate.toUTCString();
-      searchParams.endDate = endDate.toUTCString();
+      searchParams.param = {
+        ...searchParams.param,
+        date: { $gte: startDate.toUTCString(), $lt: endDate.toUTCString() },
+      };
     }
 
-    if (!searchParams.sort) {
-      searchParams.sort = Sort.DESC;
+    if (query.pageable !== undefined) {
+      searchParams.pageable = jsonParser(query.pageable);
     }
 
     return searchParams;

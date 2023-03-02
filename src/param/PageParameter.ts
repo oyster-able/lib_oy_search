@@ -62,12 +62,12 @@ class Page<T> {
     return !this.hasNext();
   }
 
-  map(fun: (data) => any): Page<any> {
+  map(fun: (data: any) => any): Page<any> {
     return new Page(this.content.map(fun), this.pageable, this.total);
   }
 
   async mapAsycParallel(
-    fun: (data) => any,
+    fun: (data: any) => any,
     options: PromiseType
   ): Promise<Page<any>> {
     if (options === PromiseType.ALL) {
@@ -76,7 +76,7 @@ class Page<T> {
         this.pageable,
         this.total
       );
-    } else if (options === PromiseType.ALL_SETTLED) {
+    } else {
       return new Page(
         await Promise.allSettled(this.content.map(fun)),
         this.pageable,
@@ -106,13 +106,13 @@ enum Operator {
 }
 
 class Searchable {
-  constructor(property: string, value: string | string[], operator: Operator) {
+  constructor(property: string, value: string, operator: Operator) {
     this.property = property;
     this.value = value;
     this.operator = operator;
   }
   operator: Operator;
-  value: string | string[];
+  value: string;
   property: string;
 }
 
@@ -167,35 +167,6 @@ class Search {
   readonly pageable: Pageable;
 }
 
-class DocumentSearch {
-  constructor(
-    searchable: Searchable[],
-    sortable: Sortable[],
-    pageable: Pageable
-  ) {
-    this.searchable = searchable
-      .map(jsonParser)
-      .map((sortable) =>
-        sortable?.property?.includes(".")
-          ? sortable
-          : camelToSnakeCase(sortable)
-      ) as Searchable[];
-    this.sortable = sortable
-      .map(jsonParser)
-      .map((sortable) =>
-        sortable?.property?.includes(".")
-          ? sortable
-          : camelToSnakeCase(sortable)
-      ) as Sortable[];
-    this.pageable = jsonParser(pageable);
-  }
-  readonly searchable: Searchable[];
-  readonly sortable: Sortable[];
-  readonly startDate?: Date;
-  readonly endDate?: Date;
-  readonly pageable: Pageable;
-}
-
 export enum PromiseType {
   ALL = "all",
   ALL_SETTLED = "allSettled",
@@ -206,12 +177,4 @@ export enum DocumentPage {
   INIT_PAGE_SIZE = 10,
 }
 
-export {
-  Page,
-  Pageable,
-  Searchable,
-  Sortable,
-  Search,
-  DocumentSearch,
-  Operator,
-};
+export { Page, Pageable, Searchable, Sortable, Search, Operator };

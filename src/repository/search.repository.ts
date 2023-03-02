@@ -91,7 +91,7 @@ export class SearchRepository<T> extends PageRepository<T> {
     query: SelectQueryBuilder<T>,
     table: string,
     property: string,
-    value: string | string[]
+    value: string
   ) {
     switch (operator) {
       case Operator.EQ:
@@ -137,7 +137,7 @@ export class SearchRepository<T> extends PageRepository<T> {
       case Operator.INS:
         query.andWhere(
           new Brackets((qb) => {
-            const values = (value as string).split(",");
+            const values = value.split(",");
             values.forEach((val) => {
               qb.orWhere(`${table}.${property} IN ('${val}')`);
             });
@@ -150,7 +150,7 @@ export class SearchRepository<T> extends PageRepository<T> {
         });
         break;
       case Operator.BTE:
-        const values = (value as string).split(",");
+        const values = value.split(",");
         query.andWhere(
           `${table}.${property} BETWEEN :${table}${property}1 AND :${table}${property}2`,
           {

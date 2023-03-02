@@ -20,4 +20,3 @@ class PageRepository extends typeorm_1.Repository {
     }
 }
 exports.PageRepository = PageRepository;
-//# sourceMappingURL=page.repository.js.map

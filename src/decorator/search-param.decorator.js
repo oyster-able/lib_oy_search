@@ -22,32 +22,39 @@ exports.SearchParam = (0, common_1.createParamDecorator)((data, ctx) => {
     }
     if (searchParams.pageable !== undefined) {
         searchParams.pageable = jsonParser(searchParams.pageable);
+        `₩`;
     }
-    return searchParams;
+    return new PageParameter_1.Search(searchParams.searchable || [], searchParams.sortable || [], searchParams.pageable || new PageParameter_1.Pageable(1, 10));
 });
 exports.SearchDocumentParam = (0, common_1.createParamDecorator)((data, ctx) => {
     const req = ctx.switchToHttp().getRequest();
-    const searchParams = req.query;
-    searchParams.param = searchParams.param
-        ? jsonParser(searchParams.param)
-        : {};
-    if (!searchParams.pageable) {
-        searchParams.pageable = { page: 1, size: 10 };
+    const query = req.query;
+    const searchParams = {
+        param: {},
+        pageable: { page: undefined, size: undefined },
+        sort: query.sort,
+    };
+    if (query.machineId !== undefined) {
+        searchParams.param = { ...searchParams.param, machine: query.machineId };
     }
-    else {
-        searchParams.pageable = jsonParser(searchParams.pageable);
+    if (query.cmd !== undefined) {
+        searchParams.param = {
+            ...searchParams.param,
+            cmd: { $in: query.cmd.split(",") },
+        };
     }
-    if (searchParams.startDate && searchParams.endDate) {
-        const startDate = new Date(searchParams.startDate);
-        const endDate = new Date(searchParams.endDate);
+    if (query.startDate && query.endDate) {
+        const startDate = new Date(query.startDate);
+        const endDate = new Date(query.endDate);
         startDate.setHours(startDate.getHours() + 9);
         endDate.setHours(endDate.getHours() + 9);
-        searchParams.startDate = startDate.toUTCString();
-        searchParams.endDate = endDate.toUTCString();
+        searchParams.param = {
+            ...searchParams.param,
+            date: { $gte: startDate.toUTCString(), $lt: endDate.toUTCString() },
+        };
     }
-    if (!searchParams.sort) {
-        searchParams.sort = PageParameter_1.Sort.DESC;
+    if (query.pageable !== undefined) {
+        searchParams.pageable = jsonParser(query.pageable);
     }
     return searchParams;
 });
-//# sourceMappingURL=search-param.decorator.js.map
