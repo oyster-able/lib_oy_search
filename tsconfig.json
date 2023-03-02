@@ -9,11 +9,11 @@
     "allowJs": true /* JavaScript 파일 컴파일 허용 */,
     // "checkJs": true,                       /* .js 파일 오류 리포트 설정 */
     //"jsx": "react",                           /* 생성될 JSX 코드 설정: 'preserve', 'react-native', or 'react'. */
-    // "declaration": true /* '.d.ts' 파일 생성 설정 */,
+    "declaration": true /* '.d.ts' 파일 생성 설정 */,
     // "declarationMap": true,                /* 해당하는 각 '.d.ts'파일에 대한 소스 맵 생성 */
-    // "sourceMap": true /* 소스맵 '.map' 파일 생성 설정 */,
+    // "sourceMap": true,                     /* 소스맵 '.map' 파일 생성 설정 */
     // "outFile": "./",                       /* 복수 파일을 묶어 하나의 파일로 출력 설정 */
-    "outDir": "./dist" /* 출력될 디렉토리 설정 */,
+    //"outDir": "./dist",                       /* 출력될 디렉토리 설정 */
     // "rootDir": "./",                       /* 입력 파일들의 루트 디렉토리 설정. --outDir 옵션을 사용해 출력 디렉토리 설정이 가능 */
     // "composite": true,                     /* 프로젝트 컴파일 활성화 */
     // "tsBuildInfoFile": "./",               /* 증분 컴파일 정보를 저장할 파일 지정 */
@@ -25,11 +25,11 @@
 
     /* 엄격한 유형 검사 옵션
      * ------------------------------------------------------------------------------------------------------------------------------------------------ */
-    // "strict": true /* 모든 엄격한 유형 검사 옵션 활성화 */,
-    "noImplicitAny": false /* 명시적이지 않은 'any' 유형으로 표현식 및 선언 사용 시 오류 발생 */,
-    "strictNullChecks": false /* 엄격한 null 검사 사용 */,
+    "strict": true /* 모든 엄격한 유형 검사 옵션 활성화 */,
+    // "noImplicitAny": true,                 /* 명시적이지 않은 'any' 유형으로 표현식 및 선언 사용 시 오류 발생 */
+    // "strictNullChecks": true,              /* 엄격한 null 검사 사용 */
     // "strictFunctionTypes": true,           /* 엄격한 함수 유형 검사 사용 */
-    "strictBindCallApply": false /* 엄격한 'bind', 'call', 'apply' 함수 메서드 사용 */,
+    // "strictBindCallApply": true,           /* 엄격한 'bind', 'call', 'apply' 함수 메서드 사용 */
     // "strictPropertyInitialization": true,  /* 클래스에서 속성 초기화 엄격 검사 사용 */
     // "noImplicitThis": true,                /* 명시적이지 않은 'any'유형으로 'this' 표현식 사용 시 오류 발생 */
     // "alwaysStrict": true,                  /* 엄격모드에서 구문 분석 후, 각 소스 파일에 "use strict" 코드를 출력 */
@@ -39,7 +39,7 @@
     // "noUnusedLocals": true,                /* 사용되지 않은 로컬이 있을 경우, 오류로 보고 */
     // "noUnusedParameters": true,            /* 사용되지 않은 매개변수가 있을 경우, 오류로 보고 */
     // "noImplicitReturns": true,             /* 함수가 값을 반환하지 않을 경우, 오류로 보고 */
-    "noFallthroughCasesInSwitch": false /* switch 문 오류 유형에 대한 오류 보고 */,
+    "noFallthroughCasesInSwitch": true /* switch 문 오류 유형에 대한 오류 보고 */,
     // "noUncheckedIndexedAccess": true,      /* 인덱스 시그니처 결과에 'undefined' 포함 */
 
     /* 모듈 분석 옵션
