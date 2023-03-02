@@ -7,6 +7,10 @@
 node_modules/
 dist/
 
+#js
+*.js
+*.d.ts
+
 # Compiled Java class files
 *.class
 
