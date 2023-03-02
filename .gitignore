@@ -7,11 +7,6 @@
 node_modules/
 dist/
 
-#js
-*.js
-*.d.ts
-*.js.map
-
 # Compiled Java class files
 *.class
 
