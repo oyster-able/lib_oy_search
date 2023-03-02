@@ -30,3 +30,4 @@ class SerializeInterceptor {
     }
 }
 exports.SerializeInterceptor = SerializeInterceptor;
+//# sourceMappingURL=serialize.interceptor.js.map

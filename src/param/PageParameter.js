@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Operator = exports.Search = exports.Sortable = exports.Searchable = exports.Pageable = exports.Page = exports.DocumentPage = exports.PromiseType = exports.Sort = void 0;
+exports.Operator = exports.DocumentSearch = exports.Search = exports.Sortable = exports.Searchable = exports.Pageable = exports.Page = exports.DocumentPage = exports.PromiseType = exports.Sort = void 0;
 const serialize_interceptor_1 = require("../interceptors/serialize.interceptor");
 class Pageable {
     constructor(page, size) {
@@ -58,7 +58,7 @@ class Page {
         if (options === PromiseType.ALL) {
             return new Page(await Promise.all(this.content.map(fun)), this.pageable, this.total);
         }
-        else {
+        else if (options === PromiseType.ALL_SETTLED) {
             return new Page(await Promise.allSettled(this.content.map(fun)), this.pageable, this.total);
         }
     }
@@ -135,6 +135,27 @@ class Search {
     pageable;
 }
 exports.Search = Search;
+class DocumentSearch {
+    constructor(searchable, sortable, pageable) {
+        this.searchable = searchable
+            .map(jsonParser)
+            .map((sortable) => sortable?.property?.includes(".")
+            ? sortable
+            : camelToSnakeCase(sortable));
+        this.sortable = sortable
+            .map(jsonParser)
+            .map((sortable) => sortable?.property?.includes(".")
+            ? sortable
+            : camelToSnakeCase(sortable));
+        this.pageable = jsonParser(pageable);
+    }
+    searchable;
+    sortable;
+    startDate;
+    endDate;
+    pageable;
+}
+exports.DocumentSearch = DocumentSearch;
 var PromiseType;
 (function (PromiseType) {
     PromiseType["ALL"] = "all";
@@ -145,3 +166,4 @@ var DocumentPage;
     DocumentPage[DocumentPage["INIT_PAGE"] = 1] = "INIT_PAGE";
     DocumentPage[DocumentPage["INIT_PAGE_SIZE"] = 10] = "INIT_PAGE_SIZE";
 })(DocumentPage = exports.DocumentPage || (exports.DocumentPage = {}));
+//# sourceMappingURL=PageParameter.js.map

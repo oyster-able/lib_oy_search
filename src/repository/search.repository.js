@@ -121,3 +121,4 @@ class SearchRepository extends page_repository_1.PageRepository {
     }
 }
 exports.SearchRepository = SearchRepository;
+//# sourceMappingURL=search.repository.js.map
