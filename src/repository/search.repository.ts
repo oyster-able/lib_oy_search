@@ -149,7 +149,7 @@ export class SearchRepository<T> extends PageRepository<T> {
           [`${table}${property}`]: value,
         });
         break;
-      case Operator.BTE:
+      case Operator.BT:
         const values = (value as string).split(",");
         query.andWhere(
           `${table}.${property} BETWEEN :${table}${property}1 AND :${table}${property}2`,
