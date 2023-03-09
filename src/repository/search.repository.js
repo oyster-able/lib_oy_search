@@ -108,7 +108,7 @@ class SearchRepository extends page_repository_1.PageRepository {
                     [`${table}${property}`]: value,
                 });
                 break;
-            case PageParameter_1.Operator.BTE:
+            case PageParameter_1.Operator.BT:
                 const values = value.split(",");
                 query.andWhere(`${table}.${property} BETWEEN :${table}${property}1 AND :${table}${property}2`, {
                     [`${table}${property}1`]: values[0],
