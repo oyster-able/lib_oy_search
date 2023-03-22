@@ -75,7 +75,7 @@ export class DocumentSearchRepository<
       case Operator.NIN:
         filter[property] = { $nin: value } as Condition<T>;
         break;
-      case Operator.BTE:
+      case Operator.BT:
         filter[property] = { $gte: value[0], $lte: value[1] } as Condition<T>;
         break;
       default:
