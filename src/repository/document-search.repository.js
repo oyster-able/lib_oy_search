@@ -52,7 +52,8 @@ class DocumentSearchRepository extends document_page_repository_1.DocumentPageMo
                 filter[property] = { $nin: value };
                 break;
             case PageParameter_1.Operator.BT:
-                filter[property] = { $gte: value[0], $lte: value[1] };
+                const values = value.split(",");
+                filter[property] = { $gte: values[0], $lte: values[1] };
                 break;
             default:
                 return filter;
