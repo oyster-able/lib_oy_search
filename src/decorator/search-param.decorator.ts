@@ -1,7 +1,7 @@
 import { createParamDecorator, ExecutionContext } from "@nestjs/common";
 import { Sort } from "../param/PageParameter";
 
-function jsonParser(data) {
+function jsonParser(data: string) {
   if (typeof data === "string") {
     return JSON.parse(data);
   } else {

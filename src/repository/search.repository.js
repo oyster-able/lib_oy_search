@@ -11,7 +11,7 @@ class SearchRepository extends page_repository_1.PageRepository {
     search(search, tableName, queryBuilder, customParameterFun) {
         let query;
         if (queryBuilder) {
-            search.sortable.forEach((sort) => {
+            search?.sortable?.forEach((sort) => {
                 if (!sort.property.includes(".")) {
                     sort.property =
                         `${tableName}.` +
@@ -34,11 +34,11 @@ class SearchRepository extends page_repository_1.PageRepository {
         query = this.sortQueryBuild(search, query);
         query = this.pageQueryBuild(search, query);
         return query.getManyAndCount().then(([data, count]) => {
-            return new PageParameter_1.Page(data, new PageParameter_1.Pageable(search.pageable.page, search.pageable.size), count);
+            return new PageParameter_1.Page(data, new PageParameter_1.Pageable(search?.pageable?.page, search?.pageable?.size), count);
         });
     }
     searchQueryBuild(search, query, tableName) {
-        for (const searchable of search.searchable) {
+        for (const searchable of search?.searchable) {
             const { operator, value } = searchable;
             const { table, property } = this.getJoinTableNameAndProperty(searchable.property, tableName);
             this.operatorSwitch(operator, query, table, property, value);

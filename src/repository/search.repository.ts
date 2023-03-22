@@ -23,7 +23,7 @@ export class SearchRepository<T> extends PageRepository<T> {
     let query;
 
     if (queryBuilder) {
-      search.sortable.forEach((sort) => {
+      search?.sortable?.forEach((sort) => {
         if (!sort.property.includes(".")) {
           sort.property =
             `${tableName}.` +
@@ -53,7 +53,7 @@ export class SearchRepository<T> extends PageRepository<T> {
     return query.getManyAndCount().then(([data, count]) => {
       return new Page(
         data,
-        new Pageable(search.pageable.page, search.pageable.size),
+        new Pageable(search?.pageable?.page, search?.pageable?.size),
         count
       );
     });
@@ -64,7 +64,7 @@ export class SearchRepository<T> extends PageRepository<T> {
     query: SelectQueryBuilder<T>,
     tableName: string
   ): SelectQueryBuilder<T> {
-    for (const searchable of search.searchable) {
+    for (const searchable of search?.searchable) {
       const { operator, value } = searchable;
       const { table, property } = this.getJoinTableNameAndProperty(
         searchable.property,

@@ -7,14 +7,14 @@ class PageRepository extends typeorm_1.Repository {
         super(target, manager, queryRunner);
     }
     sortQueryBuild(search, query) {
-        for (const sortable of search.sortable) {
+        for (const sortable of search?.sortable) {
             const { property, direction } = sortable;
             query.orderBy(property, direction);
         }
         return query;
     }
     pageQueryBuild(search, query) {
-        const { page, size } = search.pageable;
+        const { page, size } = search?.pageable;
         query.skip(size * (page - 1)).take(size);
         return query;
     }

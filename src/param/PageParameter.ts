@@ -62,7 +62,7 @@ class Page<T> {
     return !this.hasNext();
   }
 
-  map(fun: (data) => any): Page<any> {
+  map(fun: (data: any) => any): Page<any> {
     return new Page(this.content.map(fun), this.pageable, this.total);
   }
 
