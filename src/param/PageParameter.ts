@@ -12,6 +12,13 @@ class Pageable {
   size: number;
 }
 
+class Options {
+  constructor(strict?: boolean) {
+    this.strict = strict;
+  }
+  strict?: boolean;
+}
+
 class Page<T> {
   constructor(content: T[], pageable: Pageable, total: number) {
     this.content = content;
@@ -171,12 +178,15 @@ class DocumentSearch {
   constructor(
     searchable: Searchable[],
     sortable: Sortable[],
-    pageable: Pageable
+    pageable: Pageable,
+    options?: Options
   ) {
     this.searchable = searchable
       .map(jsonParser)
       .map((sortable) =>
         sortable?.property?.includes(".")
+          ? sortable
+          : options?.strict
           ? sortable
           : camelToSnakeCase(sortable)
       ) as Searchable[];
@@ -184,6 +194,8 @@ class DocumentSearch {
       .map(jsonParser)
       .map((sortable) =>
         sortable?.property?.includes(".")
+          ? sortable
+          : options?.strict
           ? sortable
           : camelToSnakeCase(sortable)
       ) as Sortable[];
