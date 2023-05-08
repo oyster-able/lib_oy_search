@@ -4,6 +4,10 @@ declare class Pageable {
     page: number;
     size: number;
 }
+declare class Options {
+    constructor(strict?: boolean);
+    strict?: boolean;
+}
 declare class Page<T> {
     constructor(content: T[], pageable: Pageable, total: number);
     private content;
@@ -58,7 +62,7 @@ declare class Search {
     readonly pageable: Pageable;
 }
 declare class DocumentSearch {
-    constructor(searchable: Searchable[], sortable: Sortable[], pageable: Pageable);
+    constructor(searchable: Searchable[], sortable: Sortable[], pageable: Pageable, options?: Options);
     readonly searchable: Searchable[];
     readonly sortable: Sortable[];
     readonly startDate?: Date;
