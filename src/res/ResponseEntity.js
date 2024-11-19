@@ -51,6 +51,7 @@ class ResponseEntity {
         return this._data;
     }
 }
+exports.ResponseEntity = ResponseEntity;
 __decorate([
     (0, class_transformer_1.Exclude)()
 ], ResponseEntity.prototype, "_statusCode", void 0);
@@ -72,4 +73,3 @@ __decorate([
 __decorate([
     (0, class_transformer_1.Expose)()
 ], ResponseEntity.prototype, "data", null);
-exports.ResponseEntity = ResponseEntity;

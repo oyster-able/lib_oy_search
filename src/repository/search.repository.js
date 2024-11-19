@@ -115,6 +115,11 @@ class SearchRepository extends page_repository_1.PageRepository {
                     [`${table}${property}2`]: values[1],
                 });
                 break;
+            case PageParameter_1.Operator.ANY:
+                query.andWhere(`:${table}${property} = any(${property})`, {
+                    [`${table}${property}`]: value,
+                });
+                break;
             default:
                 break;
         }

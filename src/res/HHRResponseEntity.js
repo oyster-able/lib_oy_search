@@ -26,10 +26,10 @@ class HHRResponseEntity {
         return this.resultData;
     }
 }
+exports.HHRResponseEntity = HHRResponseEntity;
 __decorate([
     (0, class_transformer_1.Exclude)()
 ], HHRResponseEntity.prototype, "resultData", void 0);
 __decorate([
     (0, class_transformer_1.Expose)()
 ], HHRResponseEntity.prototype, "data", null);
-exports.HHRResponseEntity = HHRResponseEntity;

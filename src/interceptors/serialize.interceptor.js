@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SerializeInterceptor = exports.serializeToDto = exports.Serialize = void 0;
+exports.SerializeInterceptor = void 0;
+exports.Serialize = Serialize;
+exports.serializeToDto = serializeToDto;
 const common_1 = require("@nestjs/common");
 const operators_1 = require("rxjs/operators");
 const class_transformer_1 = require("class-transformer");
@@ -8,13 +10,11 @@ const PageParameter_1 = require("../param/PageParameter");
 function Serialize(dto) {
     return (0, common_1.UseInterceptors)(new SerializeInterceptor(dto));
 }
-exports.Serialize = Serialize;
 function serializeToDto(data, dto) {
     return (0, class_transformer_1.plainToInstance)(dto, data, {
         excludeExtraneousValues: true,
     });
 }
-exports.serializeToDto = serializeToDto;
 class SerializeInterceptor {
     dto;
     constructor(dto) {

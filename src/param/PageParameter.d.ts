@@ -40,7 +40,8 @@ declare enum Operator {
     INS = "ins",
     NIN = "nin",
     LIKE = "like",
-    BT = "bt"
+    BT = "bt",
+    ANY = "any"
 }
 declare class Searchable {
     constructor(property: string, value: string | string[], operator: Operator);

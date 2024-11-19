@@ -110,6 +110,7 @@ enum Operator {
   NIN = "nin",
   LIKE = "like",
   BT = "bt",
+  ANY = "any",
 }
 
 class Searchable {

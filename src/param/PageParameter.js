@@ -74,7 +74,7 @@ var Sort;
 (function (Sort) {
     Sort["ASC"] = "ASC";
     Sort["DESC"] = "DESC";
-})(Sort = exports.Sort || (exports.Sort = {}));
+})(Sort || (exports.Sort = Sort = {}));
 var Operator;
 (function (Operator) {
     Operator["EQ"] = "eq";
@@ -88,8 +88,8 @@ var Operator;
     Operator["NIN"] = "nin";
     Operator["LIKE"] = "like";
     Operator["BT"] = "bt";
-})(Operator || (Operator = {}));
-exports.Operator = Operator;
+    Operator["ANY"] = "any";
+})(Operator || (exports.Operator = Operator = {}));
 class Searchable {
     constructor(property, value, operator) {
         this.property = property;
@@ -170,9 +170,9 @@ var PromiseType;
 (function (PromiseType) {
     PromiseType["ALL"] = "all";
     PromiseType["ALL_SETTLED"] = "allSettled";
-})(PromiseType = exports.PromiseType || (exports.PromiseType = {}));
+})(PromiseType || (exports.PromiseType = PromiseType = {}));
 var DocumentPage;
 (function (DocumentPage) {
     DocumentPage[DocumentPage["INIT_PAGE"] = 1] = "INIT_PAGE";
     DocumentPage[DocumentPage["INIT_PAGE_SIZE"] = 10] = "INIT_PAGE_SIZE";
-})(DocumentPage = exports.DocumentPage || (exports.DocumentPage = {}));
+})(DocumentPage || (exports.DocumentPage = DocumentPage = {}));

@@ -7,4 +7,4 @@ var ResponseStatus;
     ResponseStatus["SERVER_ERROR"] = "SERVER_ERROR";
     ResponseStatus["BAD_PARAMETER"] = "BAD_PARAMETER";
     ResponseStatus["BAD_REQUEST"] = "BAD_REQUEST";
-})(ResponseStatus = exports.ResponseStatus || (exports.ResponseStatus = {}));
+})(ResponseStatus || (exports.ResponseStatus = ResponseStatus = {}));

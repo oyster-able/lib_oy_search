@@ -159,6 +159,11 @@ export class SearchRepository<T> extends PageRepository<T> {
           }
         );
         break;
+      case Operator.ANY:
+        query.andWhere(`:${table}${property} = any(${property})`, {
+          [`${table}${property}`]: value,
+        });
+          break;
       default:
         break;
     }

@@ -76,7 +76,7 @@ export class DocumentSearchRepository<
         filter[property] = { $nin: value } as Condition<T>;
         break;
       case Operator.BT:
-        const values = (value as string).split(",");
+        const values = (value as unknown as string).split(",");
         filter[property] = { $gte: values[0], $lte: values[1] } as Condition<T>;
         break;
       default:
